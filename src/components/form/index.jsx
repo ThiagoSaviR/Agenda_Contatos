@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Form = (props) => {
 
@@ -14,14 +14,49 @@ const Form = (props) => {
 
     const [values, setValues] = useState(intialValues);
 
+    useEffect(() => {
+        if (props.id === "") {
+            setValues({
+                ...intialValues
+            })
+        } else {
+            setValues({
+                ...props.data[props.id]
+            })
+        }
+    } , [props.id, props.data])
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setValues({ ...values, [name]: value });
+
+        setValues({ 
+            ...values, 
+            [name]: value 
+        });
     }
     const handleSubmit = (event) => {
-        event.preventDefault();
         props.addEdit(values);
     }
+
+    const checkZipCode = (event) => {
+        const { value } = event.target;
+        if (value?.length !== 8 || !value) {
+            return;
+        }
+        fetch(`https://viacep.com.br/ws/${event.target.value}/json/`)
+            .then(res => res.json())
+            .then(data => {
+                setValues({
+                    ...values,
+                    street: data.logradouro,
+                    city: data.localidade,
+                    zipCode: data.cep
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
@@ -80,6 +115,7 @@ const Form = (props) => {
                         name="zipCode"
                         value={values.zipCode} 
                         onChange={handleInputChange} 
+                        onBlur={checkZipCode}
                     />
                 </div>
             </div>
@@ -127,8 +163,8 @@ const Form = (props) => {
                     />
                 </div>
             </div>
-            <div className="form-group">
-                <input type="submit" value="Save" className="btn btn-primary btn-block" />
+            <div className="form-group mt-2">
+                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block" />
             </div>
         </form>
     );

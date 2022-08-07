@@ -3,33 +3,64 @@ import fireDb from '../../dataBase/firebase';
 
 import Form from '../form';
 
-import vexpensesLogo from '../../assets/imgs/vexpensesLogo.png';
+
 
 const Register = () => {
     const [data, setData] = useState({});
     const [modalData, setModalData] = useState({});
+    const [id , setId] = useState('');
+
 
     useEffect(() => {
-        fireDb.child('contatos').on('value', (snapshot) => {
+        fireDb.child('contacts').on('value', (snapshot) => {
             if (snapshot.val() !== null) {
                 setData({
                     ...snapshot.val()
                 });
+            } else {
+                setData({});
             }
         })
     }, []);
 
     const addEdit = (obj) => {
-        fireDb.child("contatos").push(
+        if (id === '') {
+        fireDb.child("contacts").push(
             obj,
             (error) => {
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log("Sucesso");
+                    console.log("Success");
                 }
             }
         );
+        } else {
+            fireDb.child("contacts").child(id).set(
+                obj,
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Success");
+                    }
+                }
+            );
+        }
+    }
+
+    const deleteContact = (id) => {
+        if (window.confirm('Deseja realmente excluir este contato?')) {
+            fireDb.child("contacts").child(id).remove(
+                (error) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("Success");
+                    }
+                }
+            );
+        }
     }
 
     const handleViewClick = (mData) => {
@@ -38,22 +69,25 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <>
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
-                <img className="img-fluid d-block" src={vexpensesLogo} alt="VExpenses Logo" />
+                <h1>VExpenses Contacts</h1>
                 </div>
             </div>
             <div className="row">
                 <div className="col-md-5">
-                    <Form addEdit={addEdit}/>
+                    <Form {...( {addEdit, id, data} )}/>
                 </div>
                 <div className='col-md-7'>
                     <table className="table table-striped">
                         <thead className="thead-ligth">
                             <tr>
                                 <th>Name</th>
-                                <th>Actions</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -65,8 +99,15 @@ const Register = () => {
                                             <button className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick={() => handleViewClick(data[id])}>
                                                 <i className="fa-solid fa-eye"></i>
                                             </button>
-                                            <button className="btn btn-warning">
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-warning" onClick={() => {setId(id)}}>
                                                 <i className="fa-solid fa-pencil"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-danger" onClick={() => deleteContact(id)}>
+                                                <i className="fa-solid fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -118,13 +159,22 @@ const Register = () => {
                                     <tr>
                                         <th>Street</th>
                                         <th>Number</th>
-                                        <th>City</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{modalData.steet}</td>
+                                        <td>{modalData.street}</td>
                                         <td>{modalData.number}</td>
+                                    </tr>
+                                </tbody>
+                                <thead className="thead-ligth">
+                                    <tr>
+                                        <th>City</th>
+                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
                                         <td>{modalData.city}</td>
                                     </tr>
                                 </tbody>
@@ -132,14 +182,10 @@ const Register = () => {
                             </table>
 
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-danger">Delete</button>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
