@@ -1,32 +1,30 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 
 const Form = (props) => {
 
-    const { register, handleSubmit, setValue, setFocus } = useForm();
-
-    const onSubmit = (e) => {
-        props.addEdit(e);
+    const intialValues = {
+        fullName: "",
+        email: "",
+        phone: "",
+        zipCode: "",
+        street: "",
+        number: "",
+        city: "",
     }
 
-    const checkZipCode = (event) => {
-        if (!event.target.value) return; 
-        const zipCode = event.target.value.replace(/\D/g, '');
-        fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
-            .then(res => res.json())    
-            .then(data => {
-                console.log(data);
-                setValue("street", data.logradouro);
-                setValue("city", data.localidade);
-                setValue("state", data.uf);
-                setFocus("number");
-            }).catch(err => {
-                console.log(err);
-            });
+    const [values, setValues] = useState(intialValues);
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setValues({ ...values, [name]: value });
+    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        props.addEdit(values);
     }
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <div className="form-group input-group">
                 <div className="input-group-prepend">
                     <div className="input-group-text">
@@ -35,9 +33,10 @@ const Form = (props) => {
                 </div>
                 <input
                     className="form-control"
-                    type="text"
                     placeholder="Name"
-                    {...register("fullName")}
+                    name="fullName"
+                    value={values.name}
+                    onChange={handleInputChange}
                 />
             </div>
             <div className="form-group input-group">
@@ -48,9 +47,10 @@ const Form = (props) => {
                 </div>
                 <input
                     className="form-control"
-                    type="email"
                     placeholder="E-mail"
-                    {...register("email")}
+                    name="email"
+                    value={values.email}
+                    onChange={handleInputChange}
                 />
             </div>
             <div className="row">
@@ -62,9 +62,10 @@ const Form = (props) => {
                     </div>
                     <input
                         className="form-control"
-                        type="number"
                         placeholder="Phone"
-                        {...register("phone")}
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleInputChange}
                     />
                 </div>
                 <div className="form-group input-group col-md-6">
@@ -75,10 +76,10 @@ const Form = (props) => {
                     </div>
                     <input
                         className="form-control"
-                        type="number"
                         placeholder="Zip code"
-                        {...register("zipCode")} 
-                        onBlur={checkZipCode}
+                        name="zipCode"
+                        value={values.zipCode} 
+                        onChange={handleInputChange} 
                     />
                 </div>
             </div>
@@ -90,9 +91,10 @@ const Form = (props) => {
                 </div>
                 <input 
                     className="form-control" 
-                    type="text"
                     placeholder="Street" 
-                    {...register("street")} 
+                    name="street" 
+                    value={values.street} 
+                    onChange={handleInputChange} 
                 />
             </div>
             <div className="row">
@@ -105,8 +107,9 @@ const Form = (props) => {
                     <input 
                         className="form-control" 
                         placeholder="Number" 
-                        type="number"
-                        {...register("number")}
+                        name="number" 
+                        value={values.number} 
+                        onChange={handleInputChange}
                     />
                 </div>
                 <div className="form-group input-group col-md-6">
@@ -118,13 +121,14 @@ const Form = (props) => {
                     <input 
                         className="form-control" 
                         placeholder="City" 
-                        type="text"
-                        {...register("city")}
+                        name="city" 
+                        value={values.city} 
+                        onChange={handleInputChange} 
                     />
                 </div>
             </div>
             <div className="form-group">
-                <input type="submit" value={ props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block" />
+                <input type="submit" value="Save" className="btn btn-primary btn-block" />
             </div>
         </form>
     );
