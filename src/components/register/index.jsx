@@ -32,7 +32,7 @@ const Register = () => {
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log("Success");
+                    console.log("Success save");
                 }
             }
         );
@@ -43,10 +43,11 @@ const Register = () => {
                     if (error) {
                         console.log(error);
                     } else {
-                        console.log("Success");
+                        console.log("Success edit");
                     }
                 }
             );
+            document.location.reload(true);
         }
     }
 

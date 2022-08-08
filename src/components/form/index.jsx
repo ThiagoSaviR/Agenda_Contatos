@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useFocus } from "react";
 
 const Form = (props) => {
 
@@ -35,6 +35,7 @@ const Form = (props) => {
         });
     }
     const handleSubmit = (event) => {
+        event.preventDefault();
         props.addEdit(values);
     }
 
@@ -59,6 +60,7 @@ const Form = (props) => {
 
 
     return (
+        <>
         <form autoComplete="off" onSubmit={handleSubmit}>
             <div className="form-group input-group">
                 <div className="input-group-prepend">
@@ -172,9 +174,10 @@ const Form = (props) => {
                 </div>
             </div>
             <div className="form-group mt-2">
-                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block" />
+                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block"/>
             </div>
         </form>
+        </>
     );
 }
 
