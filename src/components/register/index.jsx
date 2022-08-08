@@ -47,7 +47,6 @@ const Register = () => {
                     }
                 }
             );
-            document.location.reload(true);
         }
     }
 
@@ -71,16 +70,15 @@ const Register = () => {
     }
 
     const sorting = (field) => {
-        console.log("order")
-        if (order === 'asc') {
+        if (order === 'dsc') {
             const sortedData = Object.values(data).sort((a, b) => a[field] > b[field] ? 1 : -1);
             setData(sortedData);
-            setOrder('dsc');
+            setOrder('asc');
         }
-        if (order === 'dsc') {
+        if (order === 'asc') {
             const sortedData = Object.values(data).sort((a, b) => a[field] < b[field] ? 1 : -1);
             setData(sortedData);
-            setOrder('asc');
+            setOrder('dsc');
         }
     }
 
@@ -114,12 +112,10 @@ const Register = () => {
                     <table className="table table-striped">
                         <thead className="thead-ligth">
                             <tr>
-                                <th className=""
+                                <th 
                                     onClick={() => 
-                                    sorting("fullName") }>Name
-                                    {order === "asc" ? 
-                                    <i className="fa-solid fa-caret-up mx-3 cursor-pointer"></i> : 
-                                    <i className="fa-solid fa-caret-down mx-3"></i>}
+                                    sorting("fullName") }>
+                                        Name
                                 </th>
                                 <th>Actions</th>
                             </tr>
@@ -136,7 +132,13 @@ const Register = () => {
                                                 <button className="btn btn-primary mx-1" data-toggle="modal" data-target="#modal" onClick={() => handleViewClick(constact)}>
                                                     <i className="fa-solid fa-eye"></i>
                                                 </button>
-                                                <button className="btn btn-warning mx-1" onClick={() => {setId(id)}}>
+                                                <button className="btn btn-warning mx-1" onClick={() => {setId(id)
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: "smooth",
+                                                  });
+                                                
+                                                }}>
                                                     <i className="fa-solid fa-pencil"></i>
                                                 </button>
                                                 <button className="btn btn-danger mx-1" onClick={() => deleteContact(id)}>

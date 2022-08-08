@@ -35,7 +35,6 @@ const Form = (props) => {
         });
     }
     const handleSubmit = (event) => {
-        event.preventDefault();
         props.addEdit(values);
     }
 
@@ -45,19 +44,18 @@ const Form = (props) => {
             return;
         }
         fetch(`https://viacep.com.br/ws/${event.target.value}/json/`)
-            .then(res => res.json())
-            .then(data => {
-                setValues({
-                    ...values,
-                    street: data.logradouro,
-                    city: data.localidade,
-                    zipCode: data.cep
-                })
-            }).catch(err => {
-                console.log(err);
+        .then(res => res.json())
+        .then(data => {
+            setValues({
+                ...values,
+                street: data.logradouro,
+                city: data.localidade,
+                zipCode: data.cep
             })
-        }
-
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     return (
         <>
