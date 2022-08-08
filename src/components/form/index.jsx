@@ -67,11 +67,12 @@ const Form = (props) => {
                     </div>
                 </div>
                 <input
-                    className="form-control"
+                    className="form-control "
                     placeholder="Name"
                     name="fullName"
-                    value={values.name}
+                    value={values.fullName}
                     onChange={handleInputChange}
+                    required
                 />
             </div>
             <div className="form-group input-group">
@@ -83,9 +84,11 @@ const Form = (props) => {
                 <input
                     className="form-control"
                     placeholder="E-mail"
+                    type="email"
                     name="email"
                     value={values.email}
                     onChange={handleInputChange}
+                    required
                 />
             </div>
             <div className="row">
@@ -101,6 +104,7 @@ const Form = (props) => {
                         name="phone"
                         value={values.phone}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group input-group col-md-6">
@@ -116,6 +120,7 @@ const Form = (props) => {
                         value={values.zipCode} 
                         onChange={handleInputChange} 
                         onBlur={checkZipCode}
+                        required
                     />
                 </div>
             </div>
@@ -131,6 +136,7 @@ const Form = (props) => {
                     name="street" 
                     value={values.street} 
                     onChange={handleInputChange} 
+                    required
                 />
             </div>
             <div className="row">
@@ -146,6 +152,7 @@ const Form = (props) => {
                         name="number" 
                         value={values.number} 
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group input-group col-md-6">
@@ -160,6 +167,7 @@ const Form = (props) => {
                         name="city" 
                         value={values.city} 
                         onChange={handleInputChange} 
+                        required
                     />
                 </div>
             </div>

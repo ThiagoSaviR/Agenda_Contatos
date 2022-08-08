@@ -9,7 +9,7 @@ const Register = () => {
     const [data, setData] = useState({});
     const [modalData, setModalData] = useState({});
     const [id , setId] = useState('');
-
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fireDb.child('contacts').on('value', (snapshot) => {
@@ -76,41 +76,57 @@ const Register = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-5">
+                <div className="col-md-6">
                     <Form {...( {addEdit, id, data} )}/>
                 </div>
-                <div className='col-md-7'>
+
+                <div className='col-md-6'>
+                    <div className="form-group input-group">
+                        <div className="input-group-prepend">
+                            <div className="input-group-text">
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                        </div>
+                        <input
+                            className="form-control "
+                            placeholder="Search"
+                            name="search"
+                            value={search}
+                            onChange={(event) => setSearch(event.target.value)}
+                        />
+                    </div>
+
                     <table className="table table-striped">
                         <thead className="thead-ligth">
                             <tr>
                                 <th>Name</th>
-                                <th>View</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 Object.keys(data).map(id => {
-                                    return <tr key={id}>
-                                        <td>{data[id].fullName}</td>
-                                        <td>
-                                            <button className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onClick={() => handleViewClick(data[id])}>
-                                                <i className="fa-solid fa-eye"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className="btn btn-warning" onClick={() => {setId(id)}}>
-                                                <i className="fa-solid fa-pencil"></i>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className="btn btn-danger" onClick={() => deleteContact(id)}>
-                                                <i className="fa-solid fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    const constact = data[id];
+                                    return(
+                                        constact.fullName.toLowerCase().includes(search.toLocaleLowerCase()) ? ( 
+                                        <tr key={id}>
+                                            <td>{constact.fullName}</td>
+                                            <td>
+                                                <button className="btn btn-primary mx-1" data-toggle="modal" data-target="#exampleModal" onClick={() => handleViewClick(constact)}>
+                                                    <i className="fa-solid fa-eye"></i>
+                                                </button>
+                                                <button className="btn btn-warning mx-1" onClick={() => {setId(id)}}>
+                                                    <i className="fa-solid fa-pencil"></i>
+                                                </button>
+                                          
+                                                <button className="btn btn-danger mx-1" onClick={() => deleteContact(id)}>
+                                                    <i className="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                            )
+                                        : null
+                                    )
                                 })
                             }
                         </tbody>
@@ -128,8 +144,6 @@ const Register = () => {
                             </button>
                         </div>
                         <div className="modal-body">
-                           
-
                            <table className="table table-borderless">
                                 <thead className="thead-ligth">
                                     <tr className="col-md-7">
