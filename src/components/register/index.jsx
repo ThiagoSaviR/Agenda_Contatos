@@ -2,6 +2,9 @@ import React, {useState, useEffect}from 'react';
 import fireDb from '../../dataBase/firebase';
 
 import Form from '../form';
+import Modal from '../modal';
+
+import { Table } from './viewContactInfoTable'
 
 
 
@@ -93,7 +96,6 @@ const Register = () => {
                 <div className="col-md-6">
                     <Form {...( {addEdit, id, data} )}/>
                 </div>
-
                 <div className='col-md-6'>
                     <div className="form-group input-group">
                         <div className="input-group-prepend">
@@ -129,7 +131,7 @@ const Register = () => {
                                         <tr key={id}>
                                             <td>{constact.fullName}</td>
                                             <td>
-                                                <button className="btn btn-primary mx-1" data-toggle="modal" data-target="#modal" onClick={() => handleViewClick(constact)}>
+                                                <button className="btn btn-primary mx-1" data-toggle="modal" data-target="#modalInfo" onClick={() => handleViewClick(constact)}>
                                                     <i className="fa-solid fa-eye"></i>
                                                 </button>
                                                 <button className="btn btn-warning mx-1" onClick={() => {setId(id)
@@ -156,71 +158,10 @@ const Register = () => {
                 </div>
             </div>
             
-            <div className="modal fade" id="modal" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="modalLabel">Contact info</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                           <table className="table table-borderless">
-                                <thead className="thead-ligth">
-                                    <tr className="col-md-7">
-                                        <th>Name</th>
-                                        <th>E-mail</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{modalData.fullName}</td>
-                                        <td>{modalData.email}</td>
-                                    </tr>
-                                </tbody>
-                                <thead className="thead-ligth">
-                                    <tr>
-                                        <th>Phone</th>
-                                        <th>Zip Code</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{modalData.phone}</td>
-                                        <td>{modalData.zipCode}</td>
-                                    </tr>
-                                </tbody>
-                                <thead className="thead-ligth">
-                                    <tr>
-                                        <th>Street</th>
-                                        <th>Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{modalData.street}</td>
-                                        <td>{modalData.number}</td>
-                                    </tr>
-                                </tbody>
-                                <thead className="thead-ligth">
-                                    <tr>
-                                        <th>City</th>
-                                 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{modalData.city}</td>
-                                    </tr>
-                                </tbody>
-                                
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal 
+            content={<Table data={modalData}/>} 
+            target="modalInfo"
+            />
         </>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useFocus } from "react";
 
+import Modal from "../modal";
 const Form = (props) => {
 
     const intialValues = {
@@ -35,6 +36,7 @@ const Form = (props) => {
         });
     }
     const handleSubmit = (event) => {
+        event.preventDefault();
         props.addEdit(values);
     }
 
@@ -172,9 +174,13 @@ const Form = (props) => {
                 </div>
             </div>
             <div className="form-group mt-2">
-                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block"/>
+                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInfoSaveEdit"/>
             </div>
         </form>
+        <Modal 
+            content={props.id === '' ? <h5>Contact saved successfully</h5> : <h5>Contact edited successfully</h5>} 
+            target="modalInfoSaveEdit"
+            />
         </>
     );
 }
