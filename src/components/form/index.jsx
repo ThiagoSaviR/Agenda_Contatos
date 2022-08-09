@@ -178,8 +178,10 @@ const Form = (props) => {
             </div>
         </form>
         <Modal 
+            title="Message"
             content={props.id === '' ? <h5>Contact saved successfully</h5> : <h5>Contact edited successfully</h5>} 
             target="modalInfoSaveEdit"
+            onclick={props.id === '' ? null : () => document.location.reload(true)}
             />
         </>
     );

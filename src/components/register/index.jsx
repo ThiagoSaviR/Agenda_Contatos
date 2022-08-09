@@ -159,6 +159,7 @@ const Register = () => {
             </div>
             
             <Modal 
+            title="Contact Info"
             content={<Table data={modalData}/>} 
             target="modalInfo"
             />
