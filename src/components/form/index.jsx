@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../modal";
 const Form = (props) => {
     const [morePhones, setMorePhones] = useState(false);
-    console.log(morePhones);
 
     const initialValues = useMemo(() => {
         return {
@@ -15,6 +14,7 @@ const Form = (props) => {
         zipCode: "",
         street: "",
         number: "",
+        district: "",
         city: "",
         }
     })
@@ -56,6 +56,7 @@ const Form = (props) => {
         .then(data => {
             setValues({
                 ...values,
+                district: data.bairro,
                 street: data.logradouro,
                 city: data.localidade,
                 zipCode: data.cep
@@ -96,7 +97,6 @@ const Form = (props) => {
                     name="email"
                     value={values.email}
                     onChange={handleInputChange}
-                    required
                 />
                
             </div>
@@ -131,7 +131,6 @@ const Form = (props) => {
                         name="phone2"
                         value={values.phone2}
                         onChange={handleInputChange}
-                        required
                     />
                 </div>
 
@@ -147,7 +146,6 @@ const Form = (props) => {
                         name="phone3"
                         value={values.phone3}
                         onChange={handleInputChange}
-                        required
                     />
                 </div>
             </>
@@ -166,14 +164,13 @@ const Form = (props) => {
                         value={values.zipCode} 
                         onChange={handleInputChange} 
                         onBlur={checkZipCode}
-                        required
                     />
                 </div>
             </div>
             <div className="form-group input-group">
                 <div className="input-group-prepend">
                     <div className="input-group-text">
-                        <i className="fa-solid fa-location-arrow"></i>
+                        <i className="fa-solid fa-road"></i>
                     </div>
                 </div>
                 <input 
@@ -182,7 +179,21 @@ const Form = (props) => {
                     name="street" 
                     value={values.street} 
                     onChange={handleInputChange} 
-                    required
+
+                />
+            </div>
+            <div className="form-group input-group">
+                <div className="input-group-prepend">
+                    <div className="input-group-text">
+                        <i className="fa-solid fa-city"></i>
+                    </div>
+                </div>
+                <input 
+                    className="form-control" 
+                    placeholder="district" 
+                    name="district" 
+                    value={values.district} 
+                    onChange={handleInputChange} 
                 />
             </div>
             <div className="row">
@@ -198,13 +209,13 @@ const Form = (props) => {
                         name="number" 
                         value={values.number} 
                         onChange={handleInputChange}
-                        required
+
                     />
                 </div>
                 <div className="form-group input-group col-md-7">
                     <div className="input-group-prepend">
                         <div className="input-group-text">
-                            <i className="fa-solid fa-city"></i>
+                            <i className="fa-solid fa-location-arrow"></i>
                         </div>
                     </div>
                     <input 
@@ -213,12 +224,11 @@ const Form = (props) => {
                         name="city" 
                         value={values.city} 
                         onChange={handleInputChange} 
-                        required
                     />
                 </div>
             </div>
             <div className="form-group mt-2">
-                <button submit="submit" className="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInfoSaveEdit">{props.id === '' ? "Save" : "Edit"}</button>
+                <button submit="submit" className="btn btn-primary btn-block" data-toggle="modal" data-target={values.fullName && values.phone1 ? "#modalInfoSaveEdit" : null}>{props.id === '' ? "Save" : "Edit"}</button>
             </div>
         </form>
         <Modal 

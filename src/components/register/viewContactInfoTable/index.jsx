@@ -46,11 +46,13 @@ export const Table = (props) => {
             </tbody>
             <thead className="thead-ligth">
                 <tr>
+                    <th>District</th>             
                     <th>City</th>             
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>{data.district}</td>
                     <td>{data.city}</td>
                 </tr>
             </tbody>                        
