@@ -88,7 +88,7 @@ const Register = () => {
         <>
             <div className="jumbotron jumbotron-fluid m-2">
                 <div className="container">
-                <h1>VExpenses Contacts</h1>
+                <h1>Contact Book</h1>
                 </div>
             </div>
             <div className="row">
