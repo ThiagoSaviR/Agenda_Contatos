@@ -13,8 +13,15 @@ const Modal = (props) => {
                         <div className="modal-body">
                             {props.content}
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={props.onclick}>Close</button>
+                        <div className="modal-footer">
+                            {props.twoButtons ? (
+                            <>
+                            <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={props.onclick2}>Delete</button>
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={props.onclick}>Close</button>
+                            </>
+                            ) : (
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={props.onclick}>Close</button>
+                            )}
                         </div>
                     </div>
                 </div>

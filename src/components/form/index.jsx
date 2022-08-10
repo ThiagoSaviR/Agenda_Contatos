@@ -1,24 +1,30 @@
-import React, { useEffect, useState, useFocus } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Modal from "../modal";
 const Form = (props) => {
+    const [morePhones, setMorePhones] = useState(false);
+    console.log(morePhones);
 
-    const intialValues = {
+    const initialValues = useMemo(() => {
+        return {
         fullName: "",
         email: "",
-        phone: "",
+        phone1: "",
+        phone2: "",
+        phone3: "",
         zipCode: "",
         street: "",
         number: "",
         city: "",
-    }
+        }
+    })
 
-    const [values, setValues] = useState(intialValues);
+    const [values, setValues] = useState(initialValues);
 
     useEffect(() => {
         if (props.id === "") {
             setValues({
-                ...intialValues
+                ...initialValues
             })
         } else {
             setValues({
@@ -35,7 +41,7 @@ const Form = (props) => {
             [name]: value 
         });
     }
-    const handleSubmit = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
         props.addEdit(values);
     }
@@ -61,7 +67,7 @@ const Form = (props) => {
 
     return (
         <>
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={onSubmit}>
             <div className="form-group input-group">
                 <div className="input-group-prepend">
                     <div className="input-group-text">
@@ -92,9 +98,10 @@ const Form = (props) => {
                     onChange={handleInputChange}
                     required
                 />
+               
             </div>
             <div className="row">
-                <div className="form-group input-group col-md-6">
+                <div className="form-group input-group col-md-12">
                     <div className="input-group-prepend">
                         <div className="input-group-text">
                             <i className="fas fa-phone"></i>
@@ -103,13 +110,50 @@ const Form = (props) => {
                     <input
                         className="form-control"
                         placeholder="Phone"
-                        name="phone"
-                        value={values.phone}
+                        name="phone1"
+                        value={values.phone1}
+                        onChange={handleInputChange}
+                        required
+                    />
+                <button type="button" className="btn btn-primary mx-1"onClick={() => setMorePhones(!morePhones)}>{morePhones ? <i className="fa-solid fa-minus"></i> : <i className="fa-solid fa-plus"></i>}</button>
+                </div>
+                {morePhones? (
+                <>       
+                    <div className="form-group input-group col-md-12">
+                    <div className="input-group-prepend">
+                        <div className="input-group-text">
+                            <i className="fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <input
+                        className="form-control "
+                        placeholder="Phone 2"
+                        name="phone2"
+                        value={values.phone2}
                         onChange={handleInputChange}
                         required
                     />
                 </div>
-                <div className="form-group input-group col-md-6">
+
+                <div className="form-group input-group col-md-12">
+                    <div className="input-group-prepend">
+                        <div className="input-group-text">
+                            <i className="fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <input
+                        className="form-control "
+                        placeholder="Phone 3"
+                        name="phone3"
+                        value={values.phone3}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+            </>
+                ): null}
+
+                <div className="form-group input-group col-md-12">
                     <div className="input-group-prepend">
                         <div className="input-group-text">
                             <i className="fa-solid fa-location-dot"></i>
@@ -142,7 +186,7 @@ const Form = (props) => {
                 />
             </div>
             <div className="row">
-                <div className="form-group input-group col-md-6">
+                <div className="form-group input-group col-md-5">
                     <div className="input-group-prepend">
                         <div className="input-group-text">
                             <i className="fa-solid fa-hashtag"></i>
@@ -157,7 +201,7 @@ const Form = (props) => {
                         required
                     />
                 </div>
-                <div className="form-group input-group col-md-6">
+                <div className="form-group input-group col-md-7">
                     <div className="input-group-prepend">
                         <div className="input-group-text">
                             <i className="fa-solid fa-city"></i>
@@ -174,7 +218,7 @@ const Form = (props) => {
                 </div>
             </div>
             <div className="form-group mt-2">
-                <input type="submit" value={props.id === '' ? "Save" : "Edit"} className="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInfoSaveEdit"/>
+                <button submit="submit" className="btn btn-primary btn-block" data-toggle="modal" data-target="#modalInfoSaveEdit">{props.id === '' ? "Save" : "Edit"}</button>
             </div>
         </form>
         <Modal 

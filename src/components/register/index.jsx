@@ -53,8 +53,8 @@ const Register = () => {
         }
     }
 
+    const [contactId, setContactId] = useState('');
     const deleteContact = (id) => {
-        if (window.confirm('Deseja realmente excluir este contato?')) {
             fireDb.child("contacts").child(id).remove(
                 (error) => {
                     if (error) {
@@ -64,7 +64,6 @@ const Register = () => {
                     }
                 }
             );
-        }
     }
 
     const handleViewClick = (mData) => {
@@ -87,7 +86,7 @@ const Register = () => {
 
     return (
         <>
-            <div className="jumbotron jumbotron-fluid">
+            <div className="jumbotron jumbotron-fluid m-2">
                 <div className="container">
                 <h1>VExpenses Contacts</h1>
                 </div>
@@ -143,7 +142,7 @@ const Register = () => {
                                                 }}>
                                                     <i className="fa-solid fa-pencil"></i>
                                                 </button>
-                                                <button className="btn btn-danger mx-1" onClick={() => deleteContact(id)}>
+                                                <button className="btn btn-danger mx-1" data-toggle="modal" data-target="#modalDelete" onClick={() => setContactId(id)}>
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
                                             </td>
@@ -151,6 +150,7 @@ const Register = () => {
                                             )
                                         : null
                                     )
+                                    
                                 })
                             }
                         </tbody>
@@ -163,6 +163,15 @@ const Register = () => {
             content={<Table data={modalData}/>} 
             target="modalInfo"
             />
+            <Modal 
+            title="Delete Contact"
+            content="Do you really want to delete this contact?" 
+            target="modalDelete"
+            onclick2={() => deleteContact(contactId)} 
+            twoButtons={true}
+            colorButton="danger"
+            />
+            
         </>
     );
 }

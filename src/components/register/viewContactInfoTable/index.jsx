@@ -18,24 +18,28 @@ export const Table = (props) => {
             </tbody>
             <thead className="thead-ligth">
                 <tr>
-                    <th>Phone</th>
-                    <th>Zip Code</th>
+                    <th>Phone 1</th>
+                    <th>Phone 2</th>
+                    <th>Phone 3</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{data.phone}</td>
-                    <td>{data.zipCode}</td>
+                    <td>{data.phone1}</td>
+                    <td>{data.phone2}</td>
+                    <td>{data.phone3}</td>
                 </tr>
             </tbody>
             <thead className="thead-ligth">
                 <tr>
+                    <th>Zip Code</th>
                     <th>Street</th>
                     <th>Number</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td>{data.zipCode}</td>
                     <td>{data.street}</td>
                     <td>{data.number}</td>
                 </tr>
